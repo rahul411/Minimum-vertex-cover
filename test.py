@@ -30,7 +30,7 @@ if algorithm == 'BnB':
 	
 
 if algorithm == 'LS1':
-	os.system('LS1.py '+fileName+' '+ cutoff+' '+seed)
+	os.system('python3 LS1.py '+fileName+' '+ cutoff+' '+seed)
 
 if algorithm == 'LS2':
-	os.system('LS2.py '+fileName+' '+ cutoff+' '+seed)
+	os.system('python3 LS2.py '+fileName+' '+ cutoff+' '+seed)
