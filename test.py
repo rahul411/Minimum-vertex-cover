@@ -27,3 +27,10 @@ if args.seed:
 
 if algorithm == 'BnB':
 	os.system('python MVC_BnB.py '+fileName+' '+ cutoff)
+	
+
+if algorithm == 'LS1':
+	os.system('LS1.py '+fileName+' '+ cutoff+' '+seed)
+
+if algorithm == 'LS2':
+	os.system('LS2.py '+fileName+' '+ cutoff+' '+seed)
