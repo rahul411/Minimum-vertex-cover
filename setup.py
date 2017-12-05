@@ -1,17 +1,21 @@
+from distutils.core import setup
+import py2exe
+import numpy
+import os
 import sys
-from cx_Freeze import setup, Executable
+import argparse
 
-# graphName = sys.argv[1]
-# algo = sys.argv[2]
-# cutoff = sys.argv[3]
-# seed = sys.argv[4]
+# add any numpy directory containing a dll file to sys.path
+def numpy_dll_paths_fix():
+    paths = set()
+    np_path = numpy.__path__[0]
+    for dirpath, _, filenames in os.walk(np_path):
+        for item in filenames:
+            if item.endswith('.dll'):
+                paths.add(dirpath)
 
-setup(
-    name = "Any Name",
-    version = "3.1",
-    description = "Any Description you like",
-    executables = [Executable("test.py", base = None)])
-# from distutils.core import setup
-# import py2exe
+    sys.path.append(*list(paths))
 
-# setup(console=['test.py'])
+numpy_dll_paths_fix()
+
+setup(console=['exec.py'])

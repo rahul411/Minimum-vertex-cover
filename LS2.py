@@ -1,9 +1,8 @@
+from __future__ import print_function
 import networkx as nx
 import time
 import sys
 from networkx.utils import UnionFind
-import pdb
-import matplotlib.pyplot as plt
 import random
 import math
 import pandas as pd
@@ -19,7 +18,6 @@ def read_graph(filename):
         total_N, total_E = map(lambda x: int(x), info[:2])
         G.add_nodes_from(range(1,total_N+1))
         i = 1
-        #pdb.set_trace()
         
         for line in input_f:
             if line.strip() != '':
@@ -36,7 +34,7 @@ def is_vertex_cover(G,C):
     else:
         return False
 
-def heuristic(C):  
+def heuristic2(C):  
     h_set = [] 
     for edge in C.edges():  
         if not edge[0] in h_set and not edge[1] in h_set:
@@ -48,7 +46,6 @@ def heuristic(C):
     return h_set
 
 def LS2(graph,time_cutoff,random_seed,opt_solution_frame,graph_file):
-    #pdb.set_trace()
     start = time.time()
     random.seed(random_seed)
     cutoff = time_cutoff
@@ -108,21 +105,20 @@ def LS2(graph,time_cutoff,random_seed,opt_solution_frame,graph_file):
         output.write(','.join(list(map(str, best_so_far))))
         
 
-def main():
-    #pdb.set_trace()
+def mvc_ls2(filename,time,seed):
     opt_solutions = './optimum_solution.xlsx'
     opt_solution_frame = pd.read_excel(opt_solutions, sheetname='Sheet1',header = None,index_col = 0)
 
    
-    num_args = len(sys.argv)
-    if num_args < 4:
-        print ("error: not enough input arguments")
-        exit(1)
-    graph_file = sys.argv[1]
+    # num_args = len(sys.argv)
+    # if num_args < 4:
+    #     print ("error: not enough input arguments")
+    #     exit(1)
+    graph_file = filename
     graph = graph_file.rstrip().split('/')[-1].split('.')[0]
     
-    cutoff = int(sys.argv[2]) 
-    random_seed = int(sys.argv[3]) 
+    cutoff = time
+    random_seed = seed
     LS2(graph,cutoff,random_seed,opt_solution_frame,graph_file)
     
 #LS1('jazz',cutoff,random_seed,opt_solution_frame)

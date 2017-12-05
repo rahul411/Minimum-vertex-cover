@@ -1,9 +1,8 @@
+from __future__ import print_function
 import networkx as nx
 import time
 import sys
 from networkx.utils import UnionFind
-import pdb
-import matplotlib.pyplot as plt
 import random
 import math
 import pandas as pd
@@ -19,7 +18,6 @@ def read_graph(filename):
         total_N, total_E = map(lambda x: int(x), info[:2])
         G.add_nodes_from(range(1,total_N+1))
         i = 1
-        #pdb.set_trace()
         
         for line in input_f:
             if line.strip() != '':
@@ -33,8 +31,7 @@ def read_graph(filename):
     
 # cost function to calculate the cost of a certain solution
 def cost(G,C):
-    #Cost(G, C) = number of edges not covered by C′
-    A = G.copy()
+    A = G
     A.remove_nodes_from(C)
     return A.number_of_edges()
     
@@ -51,9 +48,9 @@ def one_exchange(all,C):
     C_complement = [x for x in all if x not in C]
     u = random.choice(C)
     v = random.choice(C_complement)
-    C_copy = C.copy()
+    C_copy = C
     C_copy.remove(u)
-    new_C = C_copy.copy()
+    new_C = C_copy
     new_C.append(v)
     return new_C
     
@@ -87,7 +84,6 @@ def LS1(graph,time_cutoff,random_seed,opt_solution_frame,graph_file):
     trace_file = './Output/'+graph+'_LS1_'+str(time_cutoff)+'_'+str(random_seed)+'.trace'
     
     #graph_name = filename.split('/')[-1]
-    #pdb.set_trace()
     graph_name = graph+'.graph'
     graph_opt_solution = opt_solution_frame.loc[graph_name][1]
     # read in the graph
@@ -96,7 +92,6 @@ def LS1(graph,time_cutoff,random_seed,opt_solution_frame,graph_file):
     local_set = heuristic(data)
     start = time.time()
     elapsed_time = 0
-#    pdb.set_trace()
     new_cost = -1
     previous_cost = 100
     with open(trace_file,'w') as output:
@@ -158,21 +153,20 @@ def LS1(graph,time_cutoff,random_seed,opt_solution_frame,graph_file):
         output.write(str(len(local_set))+'\n')
         output.write(','.join(list(map(str, local_set))))
         
-def main():
-    #pdb.set_trace()
+def mvc_ls1(filename,time,seed):
     opt_solutions = './optimum_solution.xlsx'
     opt_solution_frame = pd.read_excel(opt_solutions, sheetname='Sheet1',header = None,index_col = 0)
 
    
-    num_args = len(sys.argv)
-    if num_args < 4:
-        print ("error: not enough input arguments")
-        exit(1)
-    graph_file = sys.argv[1]
+    # num_args = len(sys.argv)
+    # if num_args < 4:
+    #     print ("error: not enough input arguments")
+    #     exit(1)
+    graph_file = filename
     graph = graph_file.rstrip().split('/')[-1].split('.')[0]
     
-    cutoff = int(sys.argv[2]) 
-    random_seed = int(sys.argv[3]) 
+    cutoff = time 
+    random_seed = seed
     LS1(graph,cutoff,random_seed,opt_solution_frame,graph_file)
     
 #LS1('jazz',cutoff,random_seed,opt_solution_frame)

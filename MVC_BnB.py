@@ -1,7 +1,7 @@
 # implementation of branch_and_bound algorithm
 
 import networkx as nx
-from priorityQueue import indexMinPQ
+from priorityq import indexMinPQ
 import time
 import sys
 import re
@@ -165,17 +165,17 @@ class MVC:
         output.close()
 
 
-def main():
+def BNB(filename,time):
 
-    num_args = len(sys.argv)
+    # num_args = len(sys.argv)
 
-    if num_args < 3:
-        print ("error: not enough input arguments")
-        exit(1)
+    # if num_args < 3:
+    #     print ("error: not enough input arguments")
+    #     exit(1)
 
-    graph_file = sys.argv[1]
+    graph_file = filename
     
-    cutOffTime = int(sys.argv[2]) 
+    cutOffTime = time
     minimumVertexCover = MVC()
     graphName = re.findall(r'\\?(\w+\-?\_?\w+).graph',graph_file)
     
